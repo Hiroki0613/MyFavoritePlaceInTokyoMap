@@ -9,6 +9,8 @@
 import UIKit
 import Lottie
 
+//アニメーションを表示されるには、Lottieをcocoapodでインストールする必要があります。
+
 class ViewController: UIViewController {
     
     @IBOutlet weak var scrollView: UIScrollView!
