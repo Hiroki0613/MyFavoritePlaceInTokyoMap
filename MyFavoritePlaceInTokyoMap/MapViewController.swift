@@ -11,17 +11,23 @@ import MapKit
 
 class MapViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
   
+    //よく行く場所を記入
     var latiArray = [35.657174,35.637058,35.700694,35.667354]
     var lonArray = [139.703802,139.724699,139.408444,139.708936]
-    
     var placeArray = ["キングダムシーカーズ","加藤プラチナクリニック","ひるまOP歯科","リュネットジュラ表参道店"]
+    
+    
     
     @IBOutlet weak var mapView: MKMapView!
     
     @IBOutlet weak var mapTableView: UITableView!
     
     
-
+    //ボタンを押した時にMap画面を切り替えるために使うカウント
+    var mapChangeCount = 0
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -69,9 +75,36 @@ class MapViewController: UIViewController,UITableViewDelegate,UITableViewDataSou
         region.span.longitudeDelta = 0.01
         mapView.setRegion(region, animated: true)
         mapView.setCenter(location, animated: true)
+        mapView.mapType = .standard
+        
+        let annotationPin = MKPointAnnotation()
+        annotationPin.coordinate = CLLocationCoordinate2DMake(location.latitude, location.longitude)
+        mapView.addAnnotation(annotationPin)
+        
         
     }
     
+    
+    @IBAction func changeMap(_ sender: Any) {
+        
+        mapChangeCount = mapChangeCount + 1
+        
+        if mapChangeCount == 1 {
+            mapView.mapType = .hybrid
+        } else if mapChangeCount == 2 {
+            mapView.mapType = .hybridFlyover
+        } else if mapChangeCount == 3 {
+            mapView.mapType = .mutedStandard
+        } else if mapChangeCount == 4 {
+            mapView.mapType = .satellite
+        } else if mapChangeCount == 5 {
+            mapView.mapType = .satelliteFlyover
+        } else if mapChangeCount == 6 {
+            mapView.mapType = .standard
+            mapChangeCount = 0
+        }
+        
+    }
     
 
 }
